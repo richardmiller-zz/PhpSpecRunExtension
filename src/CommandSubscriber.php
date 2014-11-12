@@ -2,6 +2,7 @@
 
 namespace RMiller\PhpSpecRunExtension;
 
+use PhpSpec\Console\IO;
 use RMiller\PhpSpecRunExtension\Process\RunRunner\CompositeRunRunner;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
@@ -11,11 +12,13 @@ class CommandSubscriber implements EventSubscriberInterface
 {
     private $runRunner;
     private $commands;
+    private $io;
 
-    function __construct(CompositeRunRunner $runRunner, array $commands)
+    function __construct(CompositeRunRunner $runRunner, IO $io, array $commands)
     {
         $this->runRunner = $runRunner;
         $this->commands = $commands;
+        $this->io = $io;
     }
 
     public static function getSubscribedEvents()
@@ -25,7 +28,11 @@ class CommandSubscriber implements EventSubscriberInterface
 
     public function runRunCommand(ConsoleTerminateEvent $event)
     {
-        if (in_array($event->getCommand()->getName(), $this->commands)) {
+        if (!in_array($event->getCommand()->getName(), $this->commands)) {
+            return;
+        }
+
+        if ($this->io->askConfirmation('Do you want to run the phpspec run command now? (Y/n)')) {
             $this->runRunner->runRunCommand();
         }
     }

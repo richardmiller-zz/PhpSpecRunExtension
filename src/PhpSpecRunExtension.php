@@ -50,7 +50,11 @@ class PhpSpecRunExtension implements ExtensionInterface
             $params = $c->getParam('rerunner', []);
             $commands = isset($params['commands']) ? $params['commands'] : ['describe'];
 
-            return new CommandSubscriber($c->get('rmiller.run_runner'), $commands);
+            return new CommandSubscriber(
+                $c->get('rmiller.run_runner'),
+                $c->get('console.io'),
+                $commands
+            );
         });
     }
 }
