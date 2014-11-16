@@ -32,7 +32,9 @@ class CommandSubscriber implements EventSubscriberInterface
             return;
         }
 
+        $this->io->writeln();
         if ($this->io->askConfirmation('Do you want to run the phpspec run command now? (Y/n)')) {
+            $this->io->writeln();
             $this->runRunner->runRunCommand();
         }
     }
