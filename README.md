@@ -1,6 +1,9 @@
 PhpSpecRunExtension
 ===================
 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/richardmiller/PhpSpecRunExtension/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/richardmiller/PhpSpecRunExtension/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/richardmiller/PhpSpecRunExtension/badges/build.png?b=master)](https://scrutinizer-ci.com/g/richardmiller/PhpSpecRunExtension/build-status/master)
+
 PhpSpec extension that adds running run command after describe command
 
 Installation
