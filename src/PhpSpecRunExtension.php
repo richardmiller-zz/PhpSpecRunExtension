@@ -42,7 +42,7 @@ class PhpSpecRunExtension implements ExtensionInterface
             return new CliFunctionChecker($c->get('rmiller.run.caching_executable_finder'));
         });
 
-        $container->setShared('rmiller.run.caching_executable_finder', function ($c) {
+        $container->setShared('rmiller.run.caching_executable_finder', function () {
             return new CachingExecutableFinder(new PhpExecutableFinder());
         });
 
