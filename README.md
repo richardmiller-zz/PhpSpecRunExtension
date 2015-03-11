@@ -49,6 +49,7 @@ default:
   rerunner:
     path: vendor/bin/phpspec
     commands: [describe, exemplify]
+    config: path/to/phpspec.yml #optional
 ```
 
 This will now also execute the run command after the exemplify command added by the
