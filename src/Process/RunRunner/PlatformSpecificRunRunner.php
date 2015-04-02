@@ -16,6 +16,11 @@ class PlatformSpecificRunRunner implements RunRunner
     private $phpspecPath;
 
     /**
+     * @var string
+     */
+    private $phpspecConfig;
+
+    /**
      * @var CommandRunner
      */
     private $commandRunner;
@@ -29,15 +34,18 @@ class PlatformSpecificRunRunner implements RunRunner
      * @param CommandRunner $commandRunner
      * @param CachingExecutableFinder $executableFinder
      * @param string $phpspecPath
+     * @param string $phpspecConfig
      */
     public function __construct(
         CommandRunner $commandRunner,
         CachingExecutableFinder $executableFinder,
-        $phpspecPath
+        $phpspecPath,
+        $phpspecConfig
     ) {
         $this->commandRunner = $commandRunner;
         $this->executableFinder = $executableFinder;
         $this->phpspecPath = $phpspecPath;
+        $this->phpspecConfig = $phpspecConfig;
     }
 
     /**
@@ -52,7 +60,31 @@ class PlatformSpecificRunRunner implements RunRunner
     {
         $this->commandRunner->runCommand(
             $this->executableFinder->getExecutablePath(),
-            [$this->phpspecPath, self::COMMAND_NAME]
+            $this->getCommandArguments()
         );
+    }
+
+    /**
+     * @return array
+     */
+    private function getCommandArguments()
+    {
+        $commandArguments = [$this->phpspecPath, self::COMMAND_NAME];
+        $commandArguments = array_merge($commandArguments, $this->composeConfigOption());
+
+        return $commandArguments;
+    }
+
+    /**
+     * @return array
+     */
+    private function composeConfigOption()
+    {
+        $configOption = [];
+        if (!is_null($this->phpspecConfig)) {
+            array_push($configOption, '--config', $this->phpspecConfig);
+        }
+
+        return $configOption;
     }
 }

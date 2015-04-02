@@ -23,17 +23,20 @@ class PhpSpecRunExtension implements ExtensionInterface
 
             $params = $c->getParam('rerunner', []);
             $phpspecPath = isset($params['path']) ? $params['path'] : 'bin/phpspec';
+            $phpspecConfig = isset($params['config']) ? $params['config'] : null;
 
             return new CompositeRunRunner([
                 new PlatformSpecificRunRunner(
                     new PcntlCommandRunner($c->get('rmiller.run.function_checker')),
                     $c->get('rmiller.run.caching_executable_finder'),
-                    $phpspecPath
+                    $phpspecPath,
+                    $phpspecConfig
                 ),
                 new PlatformSpecificRunRunner(
                     new PassthruCommandRunner($c->get('rmiller.run.function_checker')),
                     $c->get('rmiller.run.caching_executable_finder'),
-                    $phpspecPath
+                    $phpspecPath,
+                    $phpspecConfig
                 )
             ]);
         });
